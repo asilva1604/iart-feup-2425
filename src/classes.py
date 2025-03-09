@@ -109,6 +109,64 @@ class SimulatedAnnealing:
         table1, table2 = random.sample(range(len(new_plan.tables)), 2)
         new_plan.swap_guests(table1, table2)
         return new_plan
+    
+class HillClimbing:
+    def __init__(self, seating_plan, max_iterations=10000):
+        self.current_plan = seating_plan
+        self.best_plan = seating_plan
+        self.current_score = seating_plan.score()
+        self.best_score = self.current_score
+        self.maxiterations = max_iterations
+
+    def run(self):
+        for _ in range(self.maxiterations):
+            new_plan = self._generate_neighbor()
+            new_score = new_plan.score()
+
+
+            if new_score > self.current_score:
+                self.current_plan = new_plan
+                self.current_score = new_score
+
+                if new_score > self.best_score:
+                    self.best_plan = new_plan
+                    self.best_score = new_score
+            else:
+                break
+
+        return self.best_plan, self.best_score
+
+    def _generate_neighbor(self):
+        """Generates a neighboring solution by swapping guests between tables."""    
+        new_plan = SeatingPlan(self.current_plan.guest_list, len(self.current_plan.tables), self.current_plan.tables[0].capacity)
+        table1, table2 = random.sample(range(len(new_plan.tables)), 2)
+        new_plan.swap_guests(table1, table2)
+        return new_plan
+
+
+class Greedy:
+    def __init__(self, guests, num_tables, table_capacity):
+        self.tables = [Table(table_capacity) for _ in range(num_tables)]
+        self.guest_list = guests
+
+    def run(self):
+
+        sorted_guests = sorted(self.guest_list, key=lambda x: sum(x.preferences.values()), reverse=True)
+
+        for guest in sorted_guests:
+            best_table = None
+            best_score = float('-inf')  
+            for table in self.tables:
+                if not table.is_full():
+                    score = sum(guest.get_preference(other) for other in table.guests)
+                    if score > best_score:
+                        best_table = table
+                        best_score = score
+                if best_table:
+                    best_table.add_guest(guest)
+        return self.tables
+
+
 
 # Define guests
 alice = Guest("Alice")
@@ -135,3 +193,19 @@ best_plan, best_score = optimizer.run()
 
 print("\nOptimized Seating Plan:\n", best_plan)
 print("Best Score:", best_score)
+
+hill_climbing = HillClimbing(seating_plan)
+best_plan1, best_score1 = hill_climbing.run()
+
+print("\nOptimized Seating Plan1:\n", best_plan1)
+print("Best Score1:", best_score1)
+
+greedy = Greedy(guests, num_tables=2, table_capacity=2)
+best_greedy_plan = greedy.run()
+
+print("\nGreedy Seating Plan:\n")
+for table in best_greedy_plan:
+    print(table)
+
+total_score = sum(guest.get_preference(other) for table in best_greedy_plan for guest in table.guests for other in table.guests if guest != other)
+print("Total Score:", total_score)
