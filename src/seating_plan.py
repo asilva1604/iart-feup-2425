@@ -71,3 +71,54 @@ class SeatingPlan:
 
     def __repr__(self):
         return "\n".join(str(table) for table in self.tables)
+    
+    def copy(self):
+        """Creates a deep copy of the current seating plan."""
+        import copy
+        
+        # Create a new empty seating plan with the same parameters
+        new_plan = SeatingPlan(self.guest_list, len(self.tables), self.tables[0].capacity)
+        
+        # Clear the random assignment that was done in the constructor
+        for table in new_plan.tables:
+            table.guests = []
+        
+        # Copy each guest to the same table they were in the original plan
+        for i, table in enumerate(self.tables):
+            for guest in table.guests:
+                new_plan.tables[i].add_guest(guest)
+        
+        return new_plan
+    
+    def move_guest(self, guest, from_table_idx, to_table_idx):
+        """
+        Moves a guest from one table to another.
+        
+        Args:
+            guest: The guest object to move
+            from_table_idx: Index of the table to move from
+            to_table_idx: Index of the table to move to
+            
+        Returns:
+            bool: True if move was successful, False otherwise
+        """
+        # Check if the guest is at the from_table
+        if guest not in self.tables[from_table_idx].guests:
+            return False
+        
+        # Check if the to_table has capacity
+        if self.tables[to_table_idx].is_full():
+            return False
+        
+        # Remove guest from the source table
+        self.tables[from_table_idx].remove_guest(guest)
+        
+        # Add guest to the destination table
+        result = self.tables[to_table_idx].add_guest(guest)
+        
+        # If add_guest failed for some reason, put guest back in original table
+        if not result:
+            self.tables[from_table_idx].add_guest(guest)
+            return False
+            
+        return True

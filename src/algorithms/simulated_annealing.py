@@ -3,7 +3,7 @@ import random
 from seating_plan import SeatingPlan
 
 class SimulatedAnnealing:
-    def __init__(self, seating_plan, initial_temp=5000, cooling_rate=0.99, iterations=10000):
+    def __init__(self, seating_plan, initial_temp=10000, cooling_rate=0.99, iterations=10000):
         self.current_plan = seating_plan
         self.best_plan = seating_plan
         self.current_score = seating_plan.score()
@@ -31,8 +31,19 @@ class SimulatedAnnealing:
         return self.best_plan, self.best_score
 
     def _generate_neighbor(self):
-        """Generates a neighboring solution by swapping guests between tables."""    
-        new_plan = SeatingPlan(self.current_plan.guest_list, len(self.current_plan.tables), self.current_plan.tables[0].capacity)
+        # Create a deep copy of the current plan
+        new_plan = self.current_plan.copy()  # Assuming a copy method exists
+        
+        # Select two tables randomly
         table1, table2 = random.sample(range(len(new_plan.tables)), 2)
-        new_plan.swap_guests(table1, table2)
+        
+        # Select one random guest from each table
+        if new_plan.tables[table1].guests and new_plan.tables[table2].guests:
+            guest1 = random.choice(new_plan.tables[table1].guests)
+            guest2 = random.choice(new_plan.tables[table2].guests)
+            
+            # Swap the selected guests
+            new_plan.move_guest(guest1, table1, table2)
+            new_plan.move_guest(guest2, table2, table1)
+        
         return new_plan

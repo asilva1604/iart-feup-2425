@@ -1,7 +1,7 @@
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, BruteForce
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, BruteForce, TabuSearch
 from seating_plan import SeatingPlan, Guest
 # Define guests
-guests = [Guest(f"Guest{i}") for i in range(1, 6)]
+guests = [Guest(f"Guest{i}") for i in range(1, 90)]
 
 # Define preferences (higher = wants to sit together, lower = should be apart)
 import random
@@ -12,7 +12,7 @@ for guest in guests:
             guest.set_preference(other_guest, random.randint(-10, 10))
 
 # Create initial seating plan with new guests
-seating_plan = SeatingPlan(guests, num_tables=10, table_capacity=3)
+seating_plan = SeatingPlan(guests, num_tables=31, table_capacity=3)
 print("Initial Seating Plan:\n", seating_plan)
 print("Initial Score:", seating_plan.score())
 
@@ -39,9 +39,15 @@ for table in best_greedy_plan:
 total_score = sum(guest.get_preference(other) for table in best_greedy_plan for guest in table.guests for other in table.guests if guest != other)
 print("Total Score:", total_score)
 
-# Example usage
-brute_force = BruteForce(guests, num_tables=10, table_capacity=3)
-best_brute_force_plan, best_brute_force_score = brute_force.run()
+tabu_search = TabuSearch(seating_plan)
+best_tabu_plan, best_tabu_score = tabu_search.run()
 
-print("\nBrute Force Optimized Seating Plan:\n", best_brute_force_plan)
-print("Best Brute Force Score:", best_brute_force_score)
+print("\nTabu Search Optimized Seating Plan:\n", best_tabu_plan)
+print("Best Tabu Search Score:", best_tabu_score)
+
+# Example usage
+#brute_force = BruteForce(guests, num_tables=10, table_capacity=3)
+#best_brute_force_plan, best_brute_force_score = brute_force.run()
+
+#print("\nBrute Force Optimized Seating Plan:\n", best_brute_force_plan)
+#print("Best Brute Force Score:", best_brute_force_score)
