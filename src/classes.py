@@ -150,20 +150,20 @@ class Greedy:
         self.guest_list = guests
 
     def run(self):
-
-        sorted_guests = sorted(self.guest_list, key=lambda x: sum(x.preferences.values()), reverse=True)
+        # Sort guests by the sum of their preferences, and use the guest's name as a secondary criterion
+        sorted_guests = sorted(self.guest_list, key=lambda x: (sum(x.preferences.values()), x.name), reverse=True)
 
         for guest in sorted_guests:
             best_table = None
-            best_score = float('-inf')  
+            best_score = float('-inf')
             for table in self.tables:
                 if not table.is_full():
                     score = sum(guest.get_preference(other) for other in table.guests)
                     if score > best_score:
                         best_table = table
                         best_score = score
-                if best_table:
-                    best_table.add_guest(guest)
+            if best_table:
+                best_table.add_guest(guest)
         return self.tables
 
 
@@ -174,16 +174,38 @@ bob = Guest("Bob")
 charlie = Guest("Charlie")
 david = Guest("David")
 
+
 # Define preferences (higher = wants to sit together, lower = should be apart)
 alice.set_preference(bob, 10)
 alice.set_preference(charlie, -5)
 bob.set_preference(charlie, 5)
 bob.set_preference(david, 8)
 
+# Define additional guests
+eve = Guest("Eve")
+frank = Guest("Frank")
+grace = Guest("Grace")
+heidi = Guest("Heidi")
+
+# Define preferences (higher = wants to sit together, lower = should be apart)
+alice.set_preference(eve, 3)
+alice.set_preference(frank, -2)
+bob.set_preference(grace, 7)
+charlie.set_preference(heidi, 4)
+david.set_preference(eve, 6)
+eve.set_preference(frank, 5)
+eve.set_preference(grace, -3)
+frank.set_preference(heidi, 2)
+grace.set_preference(alice, 1)
+heidi.set_preference(bob, 8)
+
 guests = [alice, bob, charlie, david]
 
-# Create initial seating plan
-seating_plan = SeatingPlan(guests, num_tables=2, table_capacity=2)
+# Add new guests to the list
+guests.extend([eve, frank, grace, heidi])
+
+# Create initial seating plan with new guests
+seating_plan = SeatingPlan(guests, num_tables=3, table_capacity=3)
 print("Initial Seating Plan:\n", seating_plan)
 print("Initial Score:", seating_plan.score())
 
@@ -191,16 +213,16 @@ print("Initial Score:", seating_plan.score())
 optimizer = SimulatedAnnealing(seating_plan)
 best_plan, best_score = optimizer.run()
 
-print("\nOptimized Seating Plan:\n", best_plan)
+print("\nSimulated Annealing Optimized Seating Plan:\n", best_plan)
 print("Best Score:", best_score)
 
 hill_climbing = HillClimbing(seating_plan)
 best_plan1, best_score1 = hill_climbing.run()
 
-print("\nOptimized Seating Plan1:\n", best_plan1)
+print("\nHill Climbing Optimized Seating Plan1:\n", best_plan1)
 print("Best Score1:", best_score1)
 
-greedy = Greedy(guests, num_tables=2, table_capacity=2)
+greedy = Greedy(guests, num_tables=3, table_capacity=3)
 best_greedy_plan = greedy.run()
 
 print("\nGreedy Seating Plan:\n")
