@@ -76,7 +76,7 @@ import math
 import random
 
 class SimulatedAnnealing:
-    def __init__(self, seating_plan, initial_temp=1000, cooling_rate=0.995, iterations=10000):
+    def __init__(self, seating_plan, initial_temp=5000, cooling_rate=0.99, iterations=10000):
         self.current_plan = seating_plan
         self.best_plan = seating_plan
         self.current_score = seating_plan.score()
