@@ -203,43 +203,18 @@ class BruteForce:
 
 
 # Define guests
-alice = Guest("Alice")
-bob = Guest("Bob")
-charlie = Guest("Charlie")
-david = Guest("David")
-
+guests = [Guest(f"Guest{i}") for i in range(1, 15)]
 
 # Define preferences (higher = wants to sit together, lower = should be apart)
-alice.set_preference(bob, 10)
-alice.set_preference(charlie, -5)
-bob.set_preference(charlie, 5)
-bob.set_preference(david, 8)
+import random
 
-# Define additional guests
-eve = Guest("Eve")
-frank = Guest("Frank")
-grace = Guest("Grace")
-heidi = Guest("Heidi")
-
-# Define preferences (higher = wants to sit together, lower = should be apart)
-alice.set_preference(eve, 3)
-alice.set_preference(frank, -2)
-bob.set_preference(grace, 7)
-charlie.set_preference(heidi, 4)
-david.set_preference(eve, 6)
-eve.set_preference(frank, 5)
-eve.set_preference(grace, -3)
-frank.set_preference(heidi, 2)
-grace.set_preference(alice, 1)
-heidi.set_preference(bob, 8)
-
-guests = [alice, bob, charlie, david]
-
-# Add new guests to the list
-guests.extend([eve, frank, grace, heidi])
+for guest in guests:
+    for other_guest in guests:
+        if guest != other_guest:
+            guest.set_preference(other_guest, random.randint(-10, 10))
 
 # Create initial seating plan with new guests
-seating_plan = SeatingPlan(guests, num_tables=3, table_capacity=3)
+seating_plan = SeatingPlan(guests, num_tables=10, table_capacity=3)
 print("Initial Seating Plan:\n", seating_plan)
 print("Initial Score:", seating_plan.score())
 
@@ -256,7 +231,7 @@ best_plan1, best_score1 = hill_climbing.run()
 print("\nHill Climbing Optimized Seating Plan1:\n", best_plan1)
 print("Best Score1:", best_score1)
 
-greedy = Greedy(guests, num_tables=3, table_capacity=3)
+greedy = Greedy(guests, num_tables=10, table_capacity=3)
 best_greedy_plan = greedy.run()
 
 print("\nGreedy Seating Plan:\n")
@@ -267,8 +242,8 @@ total_score = sum(guest.get_preference(other) for table in best_greedy_plan for 
 print("Total Score:", total_score)
 
 # Example usage
-brute_force = BruteForce(guests, num_tables=3, table_capacity=3)
-best_brute_force_plan, best_brute_force_score = brute_force.run()
+#brute_force = BruteForce(guests, num_tables=10, table_capacity=3)
+#best_brute_force_plan, best_brute_force_score = brute_force.run()
 
-print("\nBrute Force Optimized Seating Plan:\n", best_brute_force_plan)
-print("Best Brute Force Score:", best_brute_force_score)
+#print("\nBrute Force Optimized Seating Plan:\n", best_brute_force_plan)
+#print("Best Brute Force Score:", best_brute_force_score)
