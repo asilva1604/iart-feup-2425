@@ -100,8 +100,14 @@ class SeatingPlanGUI:
         canvas_width = self.canvas.winfo_width()
         canvas_height = self.canvas.winfo_height()
 
+        # Determine if the input is a list of tables or a SeatingPlan object
+        if isinstance(seating_plan, list):  # Handle the case where Greedy returns a list of tables
+            tables = seating_plan
+        else:  # Assume it's a SeatingPlan object
+            tables = seating_plan.tables
+
         # Calculate grid dimensions for table placement
-        num_tables = len(seating_plan.tables)
+        num_tables = len(tables)
         aspect_ratio = canvas_width / canvas_height
         grid_cols = int((num_tables * aspect_ratio) ** 0.5)  # Calculate columns based on aspect ratio
         grid_rows = (num_tables + grid_cols - 1) // grid_cols  # Calculate rows based on columns
@@ -116,7 +122,7 @@ class SeatingPlanGUI:
         # Adjust table radius to fit within spacing
         table_radius = min(table_radius, spacing_x // 3, spacing_y // 3)
 
-        for i, table in enumerate(seating_plan.tables):
+        for i, table in enumerate(tables):
             # Calculate table position in grid
             col = i % grid_cols
             row = i // grid_cols
