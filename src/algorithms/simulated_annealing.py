@@ -32,18 +32,54 @@ class SimulatedAnnealing:
 
     def _generate_neighbor(self):
         # Create a deep copy of the current plan
-        new_plan = self.current_plan.copy()  # Assuming a copy method exists
+        new_plan = self.current_plan.copy()
         
-        # Select two tables randomly
-        table1, table2 = random.sample(range(len(new_plan.tables)), 2)
+        # Choose a random neighbor generation strategy
+        strategy = random.choice(['swap', 'move', 'reassign_multiple'])
         
-        # Select one random guest from each table
-        if new_plan.tables[table1].guests and new_plan.tables[table2].guests:
+        # Get non-empty tables
+        non_empty_tables = [i for i, table in enumerate(new_plan.tables) if table.guests]
+        
+        # If we have no guests at all, return the unchanged plan
+        if not non_empty_tables:
+            return new_plan
+            
+        if strategy == 'swap' and len(non_empty_tables) >= 2:
+            # Swap guests between two tables
+            table1, table2 = random.sample(non_empty_tables, 2)
             guest1 = random.choice(new_plan.tables[table1].guests)
             guest2 = random.choice(new_plan.tables[table2].guests)
-            
-            # Swap the selected guests
             new_plan.move_guest(guest1, table1, table2)
             new_plan.move_guest(guest2, table2, table1)
+            
+        elif strategy == 'move' or len(non_empty_tables) < 2:
+            # Move a guest to a different table
+            source_table = random.choice(non_empty_tables)
+            guest = random.choice(new_plan.tables[source_table].guests)
+            possible_tables = [i for i in range(len(new_plan.tables)) if i != source_table]
+            if possible_tables:  # Make sure there's at least one other table
+                target_table = random.choice(possible_tables)
+                new_plan.move_guest(guest, source_table, target_table)
+                
+        elif strategy == 'reassign_multiple':
+            # Reassign multiple guests (more aggressive exploration)
+            num_moves = random.randint(1, max(3, len(non_empty_tables) // 2))
+            for _ in range(num_moves):
+                if not non_empty_tables:  # Check if we still have non-empty tables
+                    break
+                source_table = random.choice(non_empty_tables)
+                if not new_plan.tables[source_table].guests:  # Check if table still has guests
+                    non_empty_tables.remove(source_table)
+                    continue
+                guest = random.choice(new_plan.tables[source_table].guests)
+                possible_tables = [i for i in range(len(new_plan.tables)) if i != source_table]
+                if possible_tables:
+                    target_table = random.choice(possible_tables)
+                    new_plan.move_guest(guest, source_table, target_table)
+                    # Update non_empty_tables if needed
+                    if not new_plan.tables[source_table].guests:
+                        non_empty_tables.remove(source_table)
+                    if target_table not in non_empty_tables:
+                        non_empty_tables.append(target_table)
         
         return new_plan
