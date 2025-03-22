@@ -77,6 +77,18 @@ print("Best Tabu Search Score:", best_tabu_score)
 # print("\nBrute Force Optimized Seating Plan:\n", best_brute_force_plan)
 # print("Best Brute Force Score:", best_brute_force_score)
 
+# Genetic Algorithm
+start_time = time.time()
+genetic_algorithm = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
+best_ga_plan, best_ga_score = genetic_algorithm.run()
+end_time = time.time()
+time_taken = end_time - start_time
+results.append(['Genetic Algorithm', best_ga_score, time_taken, best_ga_plan])
+
+
+print("\n Genetic Algorithm Search Optimized Seating Plan:\n", best_ga_plan)
+print("Best Genetic Algorithm Search Score:", best_ga_score)
+
 # Write output CSV
 output_file_path = 'output.csv'
 write_output_csv(output_file_path, results)

@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 from math import cos, sin, pi  # Import cos, sin, and pi for angle calculations
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm
 from seating_plan import SeatingPlan
 from utils import read_input_csv
 
@@ -23,7 +23,7 @@ class SeatingPlanGUI:
         # Algorithm selection
         self.algorithm_label = tk.Label(root, text="Select Algorithm:")
         self.algorithm_label.pack(pady=5)
-        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search"])
+        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm"])
         self.algorithm_combobox.pack(pady=5)
 
         # Run button
@@ -79,6 +79,9 @@ class SeatingPlanGUI:
                 )
             elif algorithm == "Tabu Search":
                 optimizer = TabuSearch(seating_plan)
+                best_plan, best_score = optimizer.run()
+            elif algorithm == "Genetic Algorithm":
+                optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
                 best_plan, best_score = optimizer.run()
             else:
                 messagebox.showerror("Error", "Invalid algorithm selected.")
