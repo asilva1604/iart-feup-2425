@@ -1,5 +1,5 @@
 import time
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, BruteForce, TabuSearch
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, BruteForce, TabuSearch, GeneticAlgorithm 
 from seating_plan import SeatingPlan, Guest
 from utils import read_input_csv, write_output_csv
 
