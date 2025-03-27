@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
-from math import cos, sin, pi  # Import cos, sin, and pi for angle calculations
+from math import cos, sin, pi, ceil
 from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm
 from seating_plan import SeatingPlan
 from utils import read_input_csv
@@ -10,28 +10,37 @@ class SeatingPlanGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Seating Plan Optimizer")
-        self.root.geometry("1000x800")  # Increased canvas size
+        self.root.geometry("1000x800")
+        self.root.configure(bg="#e9ecef")  # Light neutral background color
 
         # Input file selection
-        self.input_file_label = tk.Label(root, text="Input File:")
+        self.input_file_label = tk.Label(root, text="Input File:", bg="#e9ecef", font=("Arial", 12, "bold"), fg="#343a40")  # Dark text
         self.input_file_label.pack(pady=5)
-        self.input_file_entry = tk.Entry(root, width=50)
+        self.input_file_entry = tk.Entry(root, width=50, font=("Arial", 10))
         self.input_file_entry.pack(pady=5)
-        self.browse_button = tk.Button(root, text="Browse", command=self.browse_file)
+        
+        # Browse button 
+        self.browse_button = tk.Button(root, text="Browse", command=self.browse_file, bg="#0056b3", fg="black", font=("Arial", 10, "bold"))
         self.browse_button.pack(pady=5)
 
+        # Number of tables selection
+        self.num_tables_label = tk.Label(root, text="Number of Tables:", bg="#e9ecef", font=("Arial", 12, "bold"), fg="#343a40")
+        self.num_tables_label.pack(pady=5)
+        self.num_tables_entry = tk.Entry(root, width=10, font=("Arial", 10))
+        self.num_tables_entry.pack(pady=5)
+
         # Algorithm selection
-        self.algorithm_label = tk.Label(root, text="Select Algorithm:")
+        self.algorithm_label = tk.Label(root, text="Select Algorithm:", bg="#e9ecef", font=("Arial", 12, "bold"), fg="#343a40")
         self.algorithm_label.pack(pady=5)
-        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm"])
+        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm"], font=("Arial", 10))
         self.algorithm_combobox.pack(pady=5)
 
-        # Run button
-        self.run_button = tk.Button(root, text="Run", command=self.run_algorithm)
+        # Run button with bright orange color
+        self.run_button = tk.Button(root, text="Run", command=self.run_algorithm, bg="#ff7f50", fg="black", font=("Arial", 12, "bold"))
         self.run_button.pack(pady=10)
 
-        # Canvas for visualizing tables
-        self.canvas = tk.Canvas(root, width=950, height=600, bg="white")  # Larger canvas
+        # Canvas for visualization
+        self.canvas = tk.Canvas(root, width=950, height=600, bg="white")
         self.canvas.pack(pady=10)
 
     def browse_file(self):
@@ -43,23 +52,23 @@ class SeatingPlanGUI:
     def run_algorithm(self):
         input_file = self.input_file_entry.get()
         algorithm = self.algorithm_combobox.get()
+        num_tables = self.num_tables_entry.get()
 
         if not input_file:
             messagebox.showerror("Error", "Please select an input file.")
             return
-
-        if not algorithm:
-            messagebox.showerror("Error", "Please select an algorithm.")
+        
+        if not num_tables.isdigit() or int(num_tables) <= 0:
+            messagebox.showerror("Error", "Please enter a valid number of tables.")
             return
+        
+        num_tables = int(num_tables)
 
         try:
-            # Read input data
             guests = read_input_csv(input_file)
-            table_capacity = 3
-            num_tables = (len(guests) + table_capacity - 1) // table_capacity
+            table_capacity = max(2, ceil(len(guests) / num_tables))  # Ensure at least 2 per table
             seating_plan = SeatingPlan(guests, num_tables=num_tables, table_capacity=table_capacity)
 
-            # Run the selected algorithm
             if algorithm == "Simulated Annealing":
                 optimizer = SimulatedAnnealing(seating_plan)
                 best_plan, best_score = optimizer.run()
@@ -69,7 +78,6 @@ class SeatingPlanGUI:
             elif algorithm == "Greedy":
                 optimizer = Greedy(guests, num_tables=num_tables, table_capacity=table_capacity)
                 best_plan = optimizer.run()
-                # Calculate the total score for the Greedy algorithm
                 best_score = sum(
                     guest.get_preference(other)
                     for table in best_plan
@@ -87,9 +95,7 @@ class SeatingPlanGUI:
                 messagebox.showerror("Error", "Invalid algorithm selected.")
                 return
 
-            # Visualize the seating plan
             self.visualize_seating_plan(best_plan, best_score)
-
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
@@ -97,7 +103,7 @@ class SeatingPlanGUI:
         self.canvas.delete("all")  # Clear the canvas
 
         # Display total score at the top of the canvas with padding
-        self.canvas.create_text(475, 30, text=f"Total Score: {total_score}", font=("Arial", 14, "bold"))
+        self.canvas.create_text(475, 30, text=f"Total Score: {total_score}", font=("Arial", 14, "bold"), fill="#343a40")
 
         # Get canvas dimensions
         canvas_width = self.canvas.winfo_width()
@@ -136,8 +142,9 @@ class SeatingPlanGUI:
             self.canvas.create_oval(
                 table_x - table_radius, table_y - table_radius,
                 table_x + table_radius, table_y + table_radius,
-                fill="lightblue"
+                fill="#FF6347", outline="black", width=2  # A tomato red for tables
             )
+            self.canvas.create_text(table_x, table_y, text=f"Table {i+1}", font=("Arial", 10, "bold"), fill="white")
 
             # Draw guests around the table
             num_guests = len(table.guests)
@@ -145,7 +152,11 @@ class SeatingPlanGUI:
                 angle = 2 * pi * j / num_guests  # Use pi for angle calculation
                 guest_x = table_x + table_radius * 0.8 * cos(angle)
                 guest_y = table_y + table_radius * 0.8 * sin(angle)
-                self.canvas.create_text(guest_x, guest_y, text=guest.name, font=("Arial", 8))
+                self.canvas.create_oval(
+                    guest_x - 10, guest_y - 10, guest_x + 10, guest_y + 10,
+                    fill="#87CEEB", outline="black"  # Light blue for guests
+                )
+                self.canvas.create_text(guest_x, guest_y, text=guest.name[:2], font=("Arial", 8, "bold"), fill="black")
 
 if __name__ == "__main__":
     root = tk.Tk()
