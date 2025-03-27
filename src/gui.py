@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
-from math import cos, sin, pi
+from math import cos, sin, pi, ceil
 from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm
 from seating_plan import SeatingPlan
 from utils import read_input_csv
@@ -66,7 +66,7 @@ class SeatingPlanGUI:
 
         try:
             guests = read_input_csv(input_file)
-            table_capacity = max(2, len(guests) // num_tables)  # Ensure at least 2 per table
+            table_capacity = max(2, ceil(len(guests) / num_tables))  # Ensure at least 2 per table
             seating_plan = SeatingPlan(guests, num_tables=num_tables, table_capacity=table_capacity)
 
             if algorithm == "Simulated Annealing":
@@ -100,32 +100,58 @@ class SeatingPlanGUI:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
     def visualize_seating_plan(self, seating_plan, total_score):
-        self.canvas.delete("all")
-        self.canvas.create_text(475, 30, text=f"Total Score: {total_score}", font=("Arial", 14, "bold"), fill="#343a40")  # Dark text for score
-        
-        tables = seating_plan.tables if isinstance(seating_plan, SeatingPlan) else seating_plan
+        self.canvas.delete("all")  # Clear the canvas
+
+        # Display total score at the top of the canvas with padding
+        self.canvas.create_text(475, 30, text=f"Total Score: {total_score}", font=("Arial", 14, "bold"), fill="#343a40")
+
+        # Get canvas dimensions
+        canvas_width = self.canvas.winfo_width()
+        canvas_height = self.canvas.winfo_height()
+
+        # Determine if the input is a list of tables or a SeatingPlan object
+        if isinstance(seating_plan, list):  # Handle the case where Greedy returns a list of tables
+            tables = seating_plan
+        else:  # Assume it's a SeatingPlan object
+            tables = seating_plan.tables
+
+        # Calculate grid dimensions for table placement
         num_tables = len(tables)
-        spacing = 150
-        start_x, start_y = 100, 100
+        aspect_ratio = canvas_width / canvas_height
+        grid_cols = int((num_tables * aspect_ratio) ** 0.5)  # Calculate columns based on aspect ratio
+        grid_rows = (num_tables + grid_cols - 1) // grid_cols  # Calculate rows based on columns
+
+        # Dynamically adjust table size and spacing
+        max_table_radius = 50  # Maximum table radius
+        min_table_radius = 10  # Minimum table radius
+        table_radius = max(min_table_radius, min(max_table_radius, min(canvas_width // (grid_cols * 3), canvas_height // (grid_rows * 3))))
+        spacing_x = canvas_width // grid_cols  # Horizontal spacing
+        spacing_y = (canvas_height - 100) // grid_rows  # Vertical spacing (subtract padding for score text)
+
+        # Adjust table radius to fit within spacing
+        table_radius = min(table_radius, spacing_x // 3, spacing_y // 3)
 
         for i, table in enumerate(tables):
-            table_x = start_x + (i % 5) * spacing
-            table_y = start_y + (i // 5) * spacing
+            # Calculate table position in grid
+            col = i % grid_cols
+            row = i // grid_cols
+            table_x = spacing_x // 2 + col * spacing_x
+            table_y = spacing_y // 2 + row * spacing_y + 50  # Add padding below the score text
 
-            # Table circle with better contrast
+            # Draw table (circle)
             self.canvas.create_oval(
-                table_x - 30, table_y - 30, table_x + 30, table_y + 30,
+                table_x - table_radius, table_y - table_radius,
+                table_x + table_radius, table_y + table_radius,
                 fill="#FF6347", outline="black", width=2  # A tomato red for tables
             )
             self.canvas.create_text(table_x, table_y, text=f"Table {i+1}", font=("Arial", 10, "bold"), fill="white")
-            
+
+            # Draw guests around the table
             num_guests = len(table.guests)
             for j, guest in enumerate(table.guests):
-                angle = 2 * pi * j / num_guests
-                guest_x = table_x + 50 * cos(angle)
-                guest_y = table_y + 50 * sin(angle)
-
-                # Guest circles with distinct color
+                angle = 2 * pi * j / num_guests  # Use pi for angle calculation
+                guest_x = table_x + table_radius * 0.8 * cos(angle)
+                guest_y = table_y + table_radius * 0.8 * sin(angle)
                 self.canvas.create_oval(
                     guest_x - 10, guest_y - 10, guest_x + 10, guest_y + 10,
                     fill="#87CEEB", outline="black"  # Light blue for guests
