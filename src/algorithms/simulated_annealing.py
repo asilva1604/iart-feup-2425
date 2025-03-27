@@ -7,7 +7,7 @@ from seating_plan import SeatingPlan
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class SimulatedAnnealing:
-    def __init__(self, seating_plan, initial_temp=1000, cooling_rate=0.99, iterations=15000):
+    def __init__(self, seating_plan, initial_temp=1000, cooling_rate=0.99, iterations=30000):
         self.current_plan = seating_plan
         self.best_plan = seating_plan.copy()
         self.current_score = seating_plan.score()
