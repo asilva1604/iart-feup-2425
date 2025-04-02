@@ -1,11 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import time
+import sys
 from algorithms import SimulatedAnnealing,  HillClimbing, BruteForce, GeneticAlgorithm, Greedy, tabu_search
 from seating_plan import SeatingPlan
 from utils import read_input_csv
 
-filepath = "input.csv"
 
 def compare_algorithms(filepath, num_tables, table_capacity):
     guests = read_input_csv(filepath)
@@ -82,6 +82,11 @@ def plot_comparison(df):
 
 
 if __name__ == '__main__':
+    
+    if len(sys.argv) > 1:
+        filepath = sys.argv[1]
+    else:
+        filepath = input("Enter the path to the input file: ")
     num_tables = 5
     table_capacity = 3
 
