@@ -14,14 +14,18 @@ class SeatingPlanGUI:
         self.root.geometry("1000x800")
         self.root.configure(bg="#e9ecef")
         
+        # Add title at the top
+        self.title_label = tk.Label(root, text="Wedding Seat Planner", bg="#e9ecef", font=("Arial", 16, "bold"), fg="#343a40")
+        self.title_label.pack(pady=(10, 20))  # Add padding at the top and bottom
+
         # Get the absolute path to the current script's directory
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         
         # Predefined datasets
         self.datasets = {
-            "4 Tables": os.path.join(BASE_DIR, "4tables.csv"),
-            "20 Tables": os.path.join(BASE_DIR, "20tables.csv"),
-            "40 Tables": os.path.join(BASE_DIR, "40tables.csv"),
+            "Small": os.path.join(BASE_DIR, "small.csv"),
+            "Medium": os.path.join(BASE_DIR, "medium.csv"),
+            "Large": os.path.join(BASE_DIR, "large.csv"),
         }
         
         # Dataset selection buttons
