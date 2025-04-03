@@ -1,4 +1,5 @@
 import csv
+import re  # Import regex for extracting numeric parts
 from seating_plan import Guest
 
 def read_input_csv(file_path):
@@ -6,8 +7,9 @@ def read_input_csv(file_path):
     with open(file_path, mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            guest_name = row['Guest']
-            other_guest_name = row['Preference_Guest']
+            # Extract numeric part of guest names
+            guest_name = ''.join(filter(str.isdigit, row['Guest']))
+            other_guest_name = ''.join(filter(str.isdigit, row['Preference_Guest']))
             preference_score = int(row['Preference_Score'])
             
             if guest_name not in guests:
