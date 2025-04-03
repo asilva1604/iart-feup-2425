@@ -26,6 +26,7 @@ class SeatingPlanGUI:
             "Small": os.path.join(BASE_DIR, "small.csv"),
             "Medium": os.path.join(BASE_DIR, "medium.csv"),
             "Large": os.path.join(BASE_DIR, "large.csv"),
+            "Extra Large": os.path.join(BASE_DIR, "extra_large.csv")
         }
         
         # Dataset selection buttons
