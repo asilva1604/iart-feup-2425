@@ -1,4 +1,4 @@
-from itertools import permutations
+from itertools import combinations
 from seating_plan import SeatingPlan, Table
 
 class BruteForce:
@@ -6,29 +6,51 @@ class BruteForce:
         self.guests = guests
         self.num_tables = num_tables
         self.table_capacity = table_capacity
+        self.max_partitions = 1000  # Limita o número de partições exploradas
+
+    def generate_table_partitions(self):
+        """Generate ordered and valid partitions of guests into tables."""
+        partitions = []
+        count = [0]
+
+        def generate_partitions_recursive(remaining_guests, current_tables, remaining_tables):
+            if remaining_tables == 0:
+                if not remaining_guests:
+                    partitions.append(list(current_tables))
+                    count[0] += 1
+                return
+
+            if count[0] >= self.max_partitions:
+                return
+
+            if not remaining_guests:
+                return
+
+            for i in range(1, min(len(remaining_guests) + 1, self.table_capacity + 1)):
+                first_table = list(remaining_guests[:i])
+                remaining = remaining_guests[i:]
+                generate_partitions_recursive(remaining, current_tables + [first_table], remaining_tables - 1)
+
+        generate_partitions_recursive(self.guests, [], self.num_tables)
+        return partitions
 
     def run(self):
+        """Run brute force to find the best seating arrangement."""
         best_plan = None
         best_score = float('-inf')
 
-        # Generate all possible permutations of guests
-        for perm in permutations(self.guests):
-            tables = [Table(self.table_capacity) for _ in range(self.num_tables)]
-            table_idx = 0
+        partitions = self.generate_table_partitions()
 
-            # Assign guests to tables based on the current permutation
-            for guest in perm:
-                while not tables[table_idx].add_guest(guest):
-                    table_idx = (table_idx + 1) % self.num_tables
-
-            # Create a seating plan and calculate its score
+        for partition in partitions:
             seating_plan = SeatingPlan(self.guests, self.num_tables, self.table_capacity)
-            seating_plan.tables = tables
+
+            for table, guests in zip(seating_plan.tables, partition):
+                table.guests = guests
+
             score = seating_plan.score()
 
-            # Update the best plan if the current one is better
             if score > best_score:
-                best_plan = seating_plan
                 best_score = score
+                best_plan = seating_plan
 
         return best_plan, best_score

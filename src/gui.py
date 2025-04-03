@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 from math import cos, sin, pi, ceil
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm, BruteForce
 from seating_plan import SeatingPlan
 from utils import read_input_csv
 
@@ -32,7 +32,7 @@ class SeatingPlanGUI:
         # Algorithm selection
         self.algorithm_label = tk.Label(root, text="Select Algorithm:", bg="#e9ecef", font=("Arial", 12, "bold"), fg="#343a40")
         self.algorithm_label.pack(pady=5)
-        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm"], font=("Arial", 10))
+        self.algorithm_combobox = ttk.Combobox(root, values=["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm", "BruteForce"], font=("Arial", 10))
         self.algorithm_combobox.pack(pady=5)
 
         # Run button with bright orange color
@@ -87,6 +87,9 @@ class SeatingPlanGUI:
                 )
             elif algorithm == "Tabu Search":
                 optimizer = TabuSearch(seating_plan)
+                best_plan, best_score = optimizer.run()
+            elif algorithm == "BruteForce":
+                optimizer = BruteForce(guests, num_tables=num_tables, table_capacity=table_capacity)
                 best_plan, best_score = optimizer.run()
             elif algorithm == "Genetic Algorithm":
                 optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
