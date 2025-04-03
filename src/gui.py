@@ -136,7 +136,7 @@ class SeatingPlanGUI:
             self.canvas.create_text(table_x, table_y, text=f"Table {i+1}", font=("Arial", 10, "bold"), fill="white")
             for j, guest in enumerate(table.guests):
                 angle = 2 * pi * j / len(table.guests)
-                guest_x, guest_y = table_x + table_radius * 0.8 * cos(angle), table_y + table_radius * 0.8 * sin(angle)
+                guest_x, guest_y = table_x + table_radius * 1.5 * cos(angle), table_y + table_radius * 1.5 * sin(angle)
                 self.canvas.create_oval(guest_x - 10, guest_y - 10, guest_x + 10, guest_y + 10, fill="#87CEEB", outline="black")
                 self.canvas.create_text(guest_x, guest_y, text=guest.name[:2], font=("Arial", 8, "bold"), fill="black")
 
