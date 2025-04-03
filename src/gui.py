@@ -142,8 +142,9 @@ class SeatingPlanGUI:
             for j, guest in enumerate(table.guests):
                 angle = 2 * pi * j / len(table.guests)
                 guest_x, guest_y = table_x + table_radius * 1.5 * cos(angle), table_y + table_radius * 1.5 * sin(angle)
+                guest_number = ''.join(filter(str.isdigit, guest.name))  # Extract the numeric part of the guest's name
                 self.canvas.create_oval(guest_x - 10, guest_y - 10, guest_x + 10, guest_y + 10, fill="#87CEEB", outline="black")
-                self.canvas.create_text(guest_x, guest_y, text=guest.name[:2], font=("Arial", 8, "bold"), fill="black")
+                self.canvas.create_text(guest_x, guest_y, text=guest_number, font=("Arial", 8, "bold"), fill="black")
 
 if __name__ == "__main__":
     root = tk.Tk()
