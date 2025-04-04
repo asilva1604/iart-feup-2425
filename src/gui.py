@@ -7,12 +7,13 @@ import os
 from seating_plan import SeatingPlan
 from utils import read_input_csv
 from __init__ import run_all_algorithms  # Import the function to run all algorithms
+import time  # Add import for measuring execution time
 
 class SeatingPlanGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Seating Plan Optimizer")
-        self.root.geometry("1200x800")  # Increased width to accommodate results panel
+        self.root.geometry("2400x1200")  # Increased width to accommodate results panel
         self.root.configure(bg="#e9ecef")
         
         # Add title at the top
@@ -88,13 +89,13 @@ class SeatingPlanGUI:
         self.stop_button.place(x=0, y=0)
 
         # Canvas for visualization
-        self.canvas = tk.Canvas(root, width=950, height=600, bg="white")
-        self.canvas.pack(pady=10)
+        self.canvas = tk.Canvas(root, width=1200, height=758, bg="white")
+        self.canvas.pack(side=tk.LEFT, pady=10, padx=100)
         
         self.selected_file = None  # Variable to store selected dataset
 
         # Results panel
-        self.results_frame = tk.Frame(root, bg="#f8f9fa", width=250, height=600, relief=tk.RIDGE, borderwidth=2)
+        self.results_frame = tk.Frame(root, bg="#f8f9fa", width=1200, height=400, relief=tk.RIDGE, borderwidth=2)
         self.results_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=10, pady=10)
         self.results_label = tk.Label(self.results_frame, text="Algorithm Results", bg="#f8f9fa", font=("Arial", 12, "bold"), fg="#343a40")
         self.results_label.pack(pady=5)
@@ -139,11 +140,11 @@ class SeatingPlanGUI:
             # Check the selected run mode
             run_mode = self.selected_run_mode
             if run_mode == "Run All Algorithms":
-                # Run all algorithms and display results
-                results = run_all_algorithms(guests, num_tables, table_capacity)
+                results = []
+                for algorithm in self.algorithm_buttons.keys():
+                    best_plan, best_score, time_taken = self.run_selected_algorithm(algorithm, guests, num_tables, table_capacity)
+                    results.append([algorithm, best_score, time_taken, best_plan])
                 self.display_results(results)
-
-                # Visualize the best seating plan (from the first algorithm)
                 best_plan, best_score = results[0][3], results[0][1]
                 self.visualize_seating_plan(best_plan, best_score)
             elif run_mode == "Run Selected Algorithm":
@@ -153,24 +154,26 @@ class SeatingPlanGUI:
                     messagebox.showerror("Error", "Please select an algorithm.")
                     return
                 
-                best_plan, best_score = self.run_selected_algorithm(algorithm, guests, num_tables, table_capacity)
+                best_plan, best_score, time_taken = self.run_selected_algorithm(algorithm, guests, num_tables, table_capacity)
                 self.visualize_seating_plan(best_plan, best_score)
-                self.display_results([[algorithm, best_score, 0, best_plan]])  # Display only the selected algorithm's result
+                self.display_results([[algorithm, best_score, time_taken, best_plan]])  # Display only the selected algorithm's result
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
     def run_selected_algorithm(self, algorithm, guests, num_tables, table_capacity):
-        """Run the selected algorithm and return the best plan and score."""
+        """Run the selected algorithm and return the best plan, score, and execution time."""
         seating_plan = SeatingPlan(guests, num_tables=num_tables, table_capacity=table_capacity)
+        start_time = time.time()  # Start timing
         if algorithm == "Simulated Annealing":
             optimizer = SimulatedAnnealing(seating_plan)
-            return optimizer.run()
+            result = optimizer.run()
         elif algorithm == "Hill Climbing":
             optimizer = HillClimbing(seating_plan)
-            return optimizer.run()
+            result = optimizer.run()
         elif algorithm == "Greedy":
             optimizer = Greedy(guests, num_tables=num_tables, table_capacity=table_capacity)
             best_plan = optimizer.run()
+            # Fix score calculation for Greedy
             best_score = sum(
                 guest.get_preference(other)
                 for table in best_plan
@@ -178,18 +181,21 @@ class SeatingPlanGUI:
                 for other in table.guests
                 if guest != other
             )
-            return best_plan, best_score
+            result = (best_plan, best_score)
         elif algorithm == "Tabu Search":
             optimizer = TabuSearch(seating_plan)
-            return optimizer.run()
+            result = optimizer.run()
         elif algorithm == "BruteForce":
             optimizer = BruteForce(guests, num_tables=num_tables, table_capacity=table_capacity)
-            return optimizer.run()
+            result = optimizer.run()
         elif algorithm == "Genetic Algorithm":
             optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
-            return optimizer.run()
+            result = optimizer.run()
         else:
             raise ValueError("Invalid algorithm selected.")
+        end_time = time.time()  # End timing
+        execution_time = end_time - start_time
+        return result[0], result[1], execution_time  # Return plan, score, and time
 
     def display_results(self, results):
         """Display the results of all algorithms in the results panel."""
@@ -234,10 +240,10 @@ class SeatingPlanGUI:
             self.canvas.create_text(table_x, table_y, text=f"Table {i+1}", font=("Arial", 10, "bold"), fill="white")
             
             # Adjust seat placement radius to avoid overlapping
-            seat_radius = table_radius * 1.8  # Increase distance between table and seats
+            seat_radius = table_radius + 30  # Ensure proper spacing between table and seats
             for j, guest in enumerate(table.guests):
                 angle = 2 * pi * j / len(table.guests)
-                guest_x, guest_y = table_x + seat_radius * 1 * cos(angle), table_y + seat_radius * 1 * sin(angle)
+                guest_x, guest_y = table_x + seat_radius * cos(angle), table_y + seat_radius * sin(angle)
                 guest_number = ''.join(filter(str.isdigit, guest.name))  # Extract the numeric part of the guest's name
                 self.canvas.create_oval(guest_x - 15, guest_y - 15, guest_x + 15, guest_y + 15, fill="#87CEEB", outline="black")
                 self.canvas.create_text(guest_x, guest_y, text=guest_number, font=("Arial", 8, "bold"), fill="black")

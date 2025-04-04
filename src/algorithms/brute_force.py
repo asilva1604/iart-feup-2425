@@ -6,7 +6,7 @@ class BruteForce:
         self.guests = guests
         self.num_tables = num_tables
         self.table_capacity = table_capacity
-        self.max_partitions = 1000  # Limita o número de partições exploradas
+        self.max_partitions = min(1000, 2 ** len(guests))  # Dynamically limit partitions
 
     def generate_table_partitions(self):
         """Generate ordered and valid partitions of guests into tables."""
@@ -36,6 +36,9 @@ class BruteForce:
 
     def run(self):
         """Run brute force to find the best seating arrangement."""
+        if self.num_tables > len(self.guests):
+            raise ValueError("Number of tables cannot exceed the number of guests.")
+
         best_plan = None
         best_score = float('-inf')
 
