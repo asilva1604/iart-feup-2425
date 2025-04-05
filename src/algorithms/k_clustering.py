@@ -7,6 +7,20 @@ class KClustering:
         self.num_tables = num_tables
         self.table_capacity = table_capacity
         self.max_iterations = max_iterations
+        
+    def initialize_random_tables(self):
+        """Randomly assign guests to tables to initialize the clustering process."""
+        tables = [Table(self.table_capacity) for _ in range(self.num_tables)]
+        shuffled_guests = self.guests[:]
+        random.shuffle(shuffled_guests)
+
+        for guest in shuffled_guests:
+            # Find a table that is not full
+            available_tables = [table for table in tables if not table.is_full()]
+            if available_tables:
+                random.choice(available_tables).add_guest(guest)
+
+        return tables
 
     def initialize_centroids(self):
         return random.sample(self.guests, self.num_tables)
@@ -59,25 +73,34 @@ class KClustering:
         return centroids
 
     def run(self):
-        centroids = self.initialize_centroids()
+        """Run the K-Clustering algorithm to optimize the seating plan."""
+        # Initialize tables and centroids
+        tables = self.initialize_random_tables()
+        centroids = self.calculate_new_centroids(tables)
+
         best_plan = None
         best_score = float('-inf')
 
         for iteration in range(self.max_iterations):
+            # Assign guests to tables based on current centroids
             tables = self.assign_guests_to_tables(centroids)
 
-            # Cria plano e atribui manualmente as mesas geradas
+            # Create a seating plan and assign the generated tables
             seating_plan = SeatingPlan(self.guests, self.num_tables, self.table_capacity)
-            seating_plan.tables = tables  # Substitui as mesas geradas aleatoriamente
+            seating_plan.tables = tables
 
+            # Calculate the score of the current seating plan
             score = seating_plan.score()
 
+            # Update the best plan if the score improves
             if score > best_score:
                 best_score = score
                 best_plan = seating_plan
 
+            # Calculate new centroids
             new_centroids = self.calculate_new_centroids(tables)
 
+            # Check for convergence (if centroids don't change)
             if all(new_centroids[i].name == centroids[i].name for i in range(len(centroids))):
                 break
 
