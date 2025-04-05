@@ -57,6 +57,7 @@ This project is a seating plan optimizer for events like weddings. It uses vario
    ```
 
 2. Run the program:
+
    ```bash
    python3 src/main.py
    ```
