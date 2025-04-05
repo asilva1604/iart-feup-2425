@@ -1,5 +1,5 @@
 import time
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, BruteForce, TabuSearch, GeneticAlgorithm
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm, KClustering
 from seating_plan import SeatingPlan
 
 def run_all_algorithms(guests, num_tables, table_capacity):
@@ -42,19 +42,19 @@ def run_all_algorithms(guests, num_tables, table_capacity):
     end_time = time.time()
     results.append(['Tabu Search', best_score, end_time - start_time, best_plan])
 
-    # Brute Force
-    start_time = time.time()
-    optimizer = BruteForce(guests, num_tables=num_tables, table_capacity=table_capacity)
-    best_plan, best_score = optimizer.run()
-    end_time = time.time()
-    results.append(['Brute Force', best_score, end_time - start_time, best_plan])
-
     # Genetic Algorithm
     start_time = time.time()
     optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
     best_plan, best_score = optimizer.run()
     end_time = time.time()
     results.append(['Genetic Algorithm', best_score, end_time - start_time, best_plan])
+
+    # K-Clustering
+    start_time = time.time()
+    optimizer = KClustering(guests, num_tables=num_tables, table_capacity=table_capacity)
+    best_plan, best_score = optimizer.run()
+    end_time = time.time()
+    results.append(['K-Clustering', best_score, end_time - start_time, best_plan])
 
     return results
 

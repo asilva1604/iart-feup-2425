@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from math import cos, sin, pi, ceil
-from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm, BruteForce
+from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, GeneticAlgorithm, KClustering
 import os
 from seating_plan import SeatingPlan
 from utils import read_input_csv
@@ -57,7 +57,7 @@ class SeatingPlanGUI:
 
         self.selected_algorithm = None
         self.algorithm_buttons = {}
-        algorithms = ["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm", "BruteForce"]
+        algorithms = ["Simulated Annealing", "Hill Climbing", "Greedy", "Tabu Search", "Genetic Algorithm", "k-clustering"]
         for algorithm in algorithms:
             btn = tk.Button(self.algorithm_frame, text=algorithm, command=lambda alg=algorithm: self.select_algorithm(alg),
                             bg="#f8f9fa", fg="#343a40", font=("Arial", 10), relief=tk.RAISED, borderwidth=2)
@@ -185,8 +185,8 @@ class SeatingPlanGUI:
         elif algorithm == "Tabu Search":
             optimizer = TabuSearch(seating_plan)
             result = optimizer.run()
-        elif algorithm == "BruteForce":
-            optimizer = BruteForce(guests, num_tables=num_tables, table_capacity=table_capacity)
+        elif algorithm == "k-clustering":
+            optimizer = KClustering(guests, num_tables=num_tables, table_capacity=table_capacity)
             result = optimizer.run()
         elif algorithm == "Genetic Algorithm":
             optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
