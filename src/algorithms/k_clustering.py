@@ -30,13 +30,34 @@ class KClustering:
     def assign_guests_to_tables(self, centroids):
         """Assign each guest to the closest centroid (table)."""
         tables = [Table(self.table_capacity) for _ in range(self.num_tables)]
+        unassigned_guests = []
+
         for guest in self.guests:
             # Find the centroid with the highest preference score for this guest
-            closest_centroid_idx = max(
-                range(len(centroids)),
-                key=lambda idx: guest.get_preference(centroids[idx])
-            )
-            tables[closest_centroid_idx].add_guest(guest)
+            preferences = [
+                (idx, guest.get_preference(centroids[idx]))
+                for idx in range(len(centroids))
+            ]
+            preferences.sort(key=lambda x: -x[1])  # Sort by preference score (descending)
+
+            # Try to assign the guest to the most preferred table
+            assigned = False
+            for idx, _ in preferences:
+                if not tables[idx].is_full():
+                    tables[idx].add_guest(guest)
+                    assigned = True
+                    break
+
+            if not assigned:
+                unassigned_guests.append(guest)
+
+        # Distribute unassigned guests to tables with available capacity
+        for guest in unassigned_guests:
+            for table in tables:
+                if not table.is_full():
+                    table.add_guest(guest)
+                    break
+
         return tables
 
     def calculate_new_centroids(self, tables):
@@ -57,7 +78,8 @@ class KClustering:
     def run(self):
         """Run the K-Clustering algorithm to optimize the seating plan."""
         start_time = time.time()  # Start timing
-        centroids = self.initialize_centroids()
+        tables = self.initialize_random_tables()
+        centroids = self.calculate_new_centroids(tables)
         best_plan = None
         best_score = float('-inf')
 
