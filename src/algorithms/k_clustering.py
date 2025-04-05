@@ -1,4 +1,5 @@
 import random
+import time  # Import time for measuring execution time
 from seating_plan import SeatingPlan, Table
 
 class KClustering:
@@ -23,79 +24,56 @@ class KClustering:
         return tables
 
     def initialize_centroids(self):
+        """Randomly initialize centroids (representative guests for each table)."""
         return random.sample(self.guests, self.num_tables)
 
     def assign_guests_to_tables(self, centroids):
+        """Assign each guest to the closest centroid (table)."""
         tables = [Table(self.table_capacity) for _ in range(self.num_tables)]
-        guest_assigned = set()
-
-        # Continue até todos os convidados serem atribuídos
         for guest in self.guests:
-            # Preferência com centróides (bidirecional opcional)
-            preferences = [
-                guest.get_preference(centroid) + centroid.get_preference(guest)
-                for centroid in centroids
-            ]
-            sorted_table_indices = sorted(range(self.num_tables), key=lambda idx: -preferences[idx])
-
-            # Tenta colocar o convidado na mesa mais preferida com espaço
-            for idx in sorted_table_indices:
-                if not tables[idx].is_full():
-                    tables[idx].add_guest(guest)
-                    guest_assigned.add(guest)
-                    break
-
-        # Distribui convidados restantes (caso algum não tenha sido atribuído)
-        unassigned = [g for g in self.guests if g not in guest_assigned]
-        for guest in unassigned:
-            for table in tables:
-                if not table.is_full():
-                    table.add_guest(guest)
-                    break
-
+            # Find the centroid with the highest preference score for this guest
+            closest_centroid_idx = max(
+                range(len(centroids)),
+                key=lambda idx: guest.get_preference(centroids[idx])
+            )
+            tables[closest_centroid_idx].add_guest(guest)
         return tables
 
     def calculate_new_centroids(self, tables):
+        """Calculate new centroids as the guest with the highest average preference in each table."""
         centroids = []
         for table in tables:
             if not table.guests:
-                centroids.append(random.choice(self.guests))
+                centroids.append(random.choice(self.guests))  # Handle empty tables
             else:
                 centroids.append(
                     max(
                         table.guests,
-                        key=lambda guest: sum(
-                            guest.get_preference(other) + other.get_preference(guest)
-                            for other in table.guests if guest != other
-                        )
+                        key=lambda guest: sum(guest.get_preference(other) for other in table.guests if guest != other)
                     )
                 )
         return centroids
 
     def run(self):
         """Run the K-Clustering algorithm to optimize the seating plan."""
-        # Initialize tables and centroids
-        tables = self.initialize_random_tables()
-        centroids = self.calculate_new_centroids(tables)
-
+        start_time = time.time()  # Start timing
+        centroids = self.initialize_centroids()
         best_plan = None
         best_score = float('-inf')
 
-        for iteration in range(self.max_iterations):
+        for _ in range(self.max_iterations):
             # Assign guests to tables based on current centroids
             tables = self.assign_guests_to_tables(centroids)
 
-            # Create a seating plan and assign the generated tables
+            # Create a seating plan and calculate its score
             seating_plan = SeatingPlan(self.guests, self.num_tables, self.table_capacity)
             seating_plan.tables = tables
-
-            # Calculate the score of the current seating plan
             score = seating_plan.score()
 
             # Update the best plan if the score improves
             if score > best_score:
-                best_score = score
                 best_plan = seating_plan
+                best_score = score
 
             # Calculate new centroids
             new_centroids = self.calculate_new_centroids(tables)
@@ -106,5 +84,7 @@ class KClustering:
 
             centroids = new_centroids
 
-        return best_plan, best_score
+        end_time = time.time()  # End timing
+        execution_time = end_time - start_time  # Calculate execution time
+        return best_plan, best_score, execution_time
 

@@ -6,8 +6,8 @@ from algorithms import SimulatedAnnealing, HillClimbing, Greedy, TabuSearch, Gen
 import os
 from seating_plan import SeatingPlan
 from utils import read_input_csv
-from __init__ import run_all_algorithms  # Import the function to run all algorithms
-import time  # Add import for measuring execution time
+from __init__ import run_all_algorithms  
+import time  
 
 class SeatingPlanGUI:
     def __init__(self, root):
@@ -20,15 +20,15 @@ class SeatingPlanGUI:
         self.title_label = tk.Label(root, text="Wedding Seat Planner", bg="#e9ecef", font=("Arial", 16, "bold"), fg="#343a40")
         self.title_label.pack(pady=(10, 20))  # Add padding at the top and bottom
 
-        # Get the absolute path to the current script's directory
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        # Get the absolute path to the project directory
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         
         # Predefined datasets
         self.datasets = {
-            "Small": os.path.join(BASE_DIR, "small.csv"),
-            "Medium": os.path.join(BASE_DIR, "medium.csv"),
-            "Large": os.path.join(BASE_DIR, "large.csv"),
-            "Extra Large": os.path.join(BASE_DIR, "extra_large.csv")
+            "Small": os.path.join(BASE_DIR, "datasets", "small.csv"),
+            "Medium": os.path.join(BASE_DIR, "datasets", "medium.csv"),
+            "Large": os.path.join(BASE_DIR, "datasets", "large.csv"),
+            "Extra Large": os.path.join(BASE_DIR, "datasets", "extra_large.csv")
         }
         
         # Dataset selection buttons
@@ -187,7 +187,8 @@ class SeatingPlanGUI:
             result = optimizer.run()
         elif algorithm == "k-clustering":
             optimizer = KClustering(guests, num_tables=num_tables, table_capacity=table_capacity)
-            result = optimizer.run()
+            result = optimizer.run()  # Already returns (best_plan, best_score, execution_time)
+            return result  # Return directly for K-Clustering
         elif algorithm == "Genetic Algorithm":
             optimizer = GeneticAlgorithm(guests, num_tables=num_tables, table_capacity=table_capacity)
             result = optimizer.run()
