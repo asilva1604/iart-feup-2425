@@ -1,0 +1,24 @@
+Algorithm: Simulated Annealing
+Quality: 44
+Time: 1.33 seconds
+
+Algorithm: Hill Climbing
+Quality: 135
+Time: 0.36 seconds
+
+Algorithm: Greedy
+Quality: 13
+Time: 0.00 seconds
+
+Algorithm: Tabu Search
+Quality: 125
+Time: 0.36 seconds
+
+Algorithm: Genetic Algorithm
+Quality: 100
+Time: 0.05 seconds
+
+Algorithm: k-clustering
+Quality: 25
+Time: 0.02 seconds
+
