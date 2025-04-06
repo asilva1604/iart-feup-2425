@@ -217,35 +217,54 @@ class SeatingPlanGUI:
         self.root.destroy()
 
     def visualize_seating_plan(self, seating_plan, total_score):
-        self.canvas.delete("all")
+        self.canvas.delete("all")  # Clear the canvas
+
+        # Display total score at the top of the canvas with padding
         self.canvas.create_text(475, 30, text=f"Total Score: {total_score}", font=("Arial", 14, "bold"), fill="#343a40")
-        
+
+        # Get canvas dimensions
         canvas_width = self.canvas.winfo_width()
         canvas_height = self.canvas.winfo_height()
         tables = seating_plan.tables if hasattr(seating_plan, 'tables') else seating_plan
-        
+
+        # Calculate grid dimensions for table placement
         num_tables = len(tables)
         aspect_ratio = canvas_width / canvas_height
         grid_cols = int((num_tables * aspect_ratio) ** 0.5)
         grid_rows = (num_tables + grid_cols - 1) // grid_cols
-        
+
         # Adjust table radius and spacing
         table_radius = min(50, min(canvas_width // (grid_cols * 4), canvas_height // (grid_rows * 4)))
         spacing_x = canvas_width // grid_cols
         spacing_y = (canvas_height - 100 - table_radius * 2.5) // grid_rows  # Account for table and seat radius
-        
+
+        # Add extra padding below the score text
+        vertical_padding = 70  # Adjust this value to move tables further down
+
         for i, table in enumerate(tables):
             col, row = i % grid_cols, i // grid_cols
-            table_x, table_y = spacing_x // 2 + col * spacing_x,  spacing_y // 2 + row * spacing_y + 50
-            self.canvas.create_oval(table_x - table_radius, table_y - table_radius, table_x + table_radius, table_y + table_radius, fill="#FF6347", outline="black", width=2)
+            table_x = spacing_x // 2 + col * spacing_x
+            table_y = spacing_y // 2 + row * spacing_y + vertical_padding  # Add padding below the score text
+
+            # Draw table (circle)
+            self.canvas.create_oval(
+                table_x - table_radius, table_y - table_radius,
+                table_x + table_radius, table_y + table_radius,
+                fill="#FF6347", outline="black", width=2
+            )
             self.canvas.create_text(table_x, table_y, text=f"Table {i+1}", font=("Arial", 10, "bold"), fill="white")
-            
+
             # Adjust seat placement radius to avoid overlapping
             seat_radius = table_radius + 30  # Ensure proper spacing between table and seats
             for j, guest in enumerate(table.guests):
                 angle = 2 * pi * j / len(table.guests)
-                guest_x, guest_y = table_x + seat_radius * cos(angle), table_y + seat_radius * sin(angle)
+                guest_x = table_x + seat_radius * cos(angle)
+                guest_y = table_y + seat_radius * sin(angle)
                 guest_number = ''.join(filter(str.isdigit, guest.name))  # Extract the numeric part of the guest's name
-                self.canvas.create_oval(guest_x - 15, guest_y - 15, guest_x + 15, guest_y + 15, fill="#87CEEB", outline="black")
+                self.canvas.create_oval(
+                    guest_x - 15, guest_y - 15,
+                    guest_x + 15, guest_y + 15,
+                    fill="#87CEEB", outline="black"
+                )
                 self.canvas.create_text(guest_x, guest_y, text=guest_number, font=("Arial", 8, "bold"), fill="black")
 
