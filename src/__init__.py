@@ -52,9 +52,9 @@ def run_all_algorithms(guests, num_tables, table_capacity):
     # K-Clustering
     start_time = time.time()
     optimizer = KClustering(guests, num_tables=num_tables, table_capacity=table_capacity)
-    best_plan, best_score = optimizer.run()
-    end_time = time.time()
-    results.append(['K-Clustering', best_score, end_time - start_time, best_plan])
+    k_clustering_result = optimizer.run()  # Handle multiple return values
+    best_plan, best_score, execution_time = k_clustering_result
+    results.append(['K-Clustering', best_score, execution_time, best_plan])
 
     return results
 

@@ -97,7 +97,7 @@ def compare_algorithms(input_file, num_tables, table_capacity):
 if __name__ == "__main__":
     # Example usage
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    input_file = os.path.join(BASE_DIR, "small.csv")  # Change to your dataset file
+    input_file = os.path.join(BASE_DIR, "datasets", "small.csv")  # Change to your dataset file
     num_tables = 5
     table_capacity = 3
     
