@@ -101,6 +101,14 @@ class SeatingPlanGUI:
         self.results_label.pack(pady=5)
         self.results_text = tk.Text(self.results_frame, wrap=tk.WORD, font=("Arial", 10), bg="#ffffff", fg="#343a40", state=tk.DISABLED, width=30, height=35)
         self.results_text.pack(pady=5, padx=5)
+
+        # Checkbox for enabling file output
+        self.file_output_enabled = tk.BooleanVar(value=False)
+        self.file_output_checkbox = tk.Checkbutton(
+            root, text="Enable File Output", variable=self.file_output_enabled,
+            bg="#e9ecef", font=("Arial", 10), fg="#343a40", selectcolor="#ffffff"
+        )
+        self.file_output_checkbox.pack(pady=5)
     
     def select_algorithm(self, algorithm):
         """Highlight the selected algorithm button."""
@@ -139,16 +147,18 @@ class SeatingPlanGUI:
             
             # Check the selected run mode
             run_mode = self.selected_run_mode
+            output_data = []  # To store results for file output
+            # In the run_algorithm method, change these lines:
             if run_mode == "Run All Algorithms":
                 results = []
                 for algorithm in self.algorithm_buttons.keys():
                     best_plan, best_score, time_taken = self.run_selected_algorithm(algorithm, guests, num_tables, table_capacity)
                     results.append([algorithm, best_score, time_taken, best_plan])
+                    output_data.append((algorithm, best_score, time_taken, best_plan))  # Now includes best_plan
                 self.display_results(results)
                 best_plan, best_score = results[0][3], results[0][1]
                 self.visualize_seating_plan(best_plan, best_score)
             elif run_mode == "Run Selected Algorithm":
-                # Run the selected algorithm
                 algorithm = self.selected_algorithm
                 if not algorithm:
                     messagebox.showerror("Error", "Please select an algorithm.")
@@ -156,10 +166,44 @@ class SeatingPlanGUI:
                 
                 best_plan, best_score, time_taken = self.run_selected_algorithm(algorithm, guests, num_tables, table_capacity)
                 self.visualize_seating_plan(best_plan, best_score)
-                self.display_results([[algorithm, best_score, time_taken, best_plan]])  # Display only the selected algorithm's result
+                self.display_results([[algorithm, best_score, time_taken, best_plan]])
+                output_data.append((algorithm, best_score, time_taken, best_plan))  # Now includes best_plan
+            
+            # Write results to file if file output is enabled
+            if self.file_output_enabled.get():
+                self.write_results_to_file(output_data)
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
+    def write_results_to_file(self, results):
+        """Writes the results to a file in the output folder, including table assignments."""
+        import os
+
+        # Get the base directory and create the output folder if it doesn't exist
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        output_dir = os.path.join(BASE_DIR, "output")
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Define the output file path
+        output_file = os.path.join(output_dir, "results.txt")
+
+        # Write results to the file
+        with open(output_file, "w") as f:
+            for result in results:
+                algorithm, score, time_taken, best_plan = result
+                f.write(f"Algorithm: {algorithm}\n")
+                f.write(f"Quality Score: {score}\n")
+                f.write(f"Time Taken: {time_taken:.2f} seconds\n")
+                
+                # Write table assignments
+                f.write("\nTable Assignments:\n")
+                for i, table in enumerate(best_plan.tables if hasattr(best_plan, 'tables') else best_plan):
+                    f.write(f"Table {i+1} Guests: ")
+                    guest_names = [guest.name for guest in table.guests]
+                    f.write(", ".join(guest_names) + "\n")
+                
+                f.write("\n" + "="*50 + "\n\n")  # Add separator between different algorithm results
+    
     def run_selected_algorithm(self, algorithm, guests, num_tables, table_capacity):
         """Run the selected algorithm and return the best plan, score, and execution time."""
         seating_plan = SeatingPlan(guests, num_tables=num_tables, table_capacity=table_capacity)
