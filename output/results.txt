@@ -1,168 +1,348 @@
 Algorithm: Simulated Annealing
-Quality Score: 36
-Time Taken: 1.33 seconds
+Quality Score: 39
+Time Taken: 14.60 seconds
 
 Table Assignments:
-Table 1 Guests: 51, 1, 45
-Table 2 Guests: 25, 24, 35
-Table 3 Guests: 36, 27, 34
-Table 4 Guests: 32, 9, 15
-Table 5 Guests: 30, 13, 50
-Table 6 Guests: 54, 16, 14
-Table 7 Guests: 39, 2, 3
-Table 8 Guests: 17, 31, 5
-Table 9 Guests: 38, 47, 42
-Table 10 Guests: 41, 60, 10
-Table 11 Guests: 20, 4, 18
-Table 12 Guests: 7, 23, 19
-Table 13 Guests: 53, 12, 52
-Table 14 Guests: 8, 49, 26
-Table 15 Guests: 59, 43, 58
-Table 16 Guests: 21, 33, 11
-Table 17 Guests: 22, 6, 40
-Table 18 Guests: 55, 28, 29
-Table 19 Guests: 44, 46, 37
-Table 20 Guests: 57, 48, 56
+Table 1 Guests: 44, 68, 53, 25
+Table 2 Guests: 79, 170, 88, 22
+Table 3 Guests: 96, 61, 180, 104
+Table 4 Guests: 115, 105, 99, 98
+Table 5 Guests: 133, 154, 161, 72
+Table 6 Guests: 156, 141, 85, 31
+Table 7 Guests: 160, 81, 125, 121
+Table 8 Guests: 164, 130, 118, 179
+Table 9 Guests: 113, 142, 37, 148
+Table 10 Guests: 145, 187, 176, 127
+Table 11 Guests: 162, 55, 38, 74
+Table 12 Guests: 50, 35, 14, 56
+Table 13 Guests: 103, 137, 1, 102
+Table 14 Guests: 169, 84, 117, 174
+Table 15 Guests: 152, 143, 107, 83
+Table 16 Guests: 120, 126, 146, 93
+Table 17 Guests: 28, 195, 87, 23
+Table 18 Guests: 64, 29, 94, 24
+Table 19 Guests: 77, 75, 9, 106
+Table 20 Guests: 128, 129, 3, 48
+Table 21 Guests: 186, 168, 175, 20
+Table 22 Guests: 139, 76, 63, 138
+Table 23 Guests: 49, 62, 116, 91
+Table 24 Guests: 67, 178, 8, 33
+Table 25 Guests: 46, 11, 151, 110
+Table 26 Guests: 66, 101, 200, 196
+Table 27 Guests: 15, 198, 189, 150
+Table 28 Guests: 12, 140, 40, 45
+Table 29 Guests: 90, 95, 188, 112
+Table 30 Guests: 181, 13, 171, 199
+Table 31 Guests: 131, 177, 192, 69
+Table 32 Guests: 41, 51, 111, 26
+Table 33 Guests: 82, 158, 10, 54
+Table 34 Guests: 119, 193, 149, 159
+Table 35 Guests: 97, 17, 132, 60
+Table 36 Guests: 165, 173, 182, 32
+Table 37 Guests: 108, 147, 124, 47
+Table 38 Guests: 52, 73, 78, 153
+Table 39 Guests: 19, 190, 5, 4
+Table 40 Guests: 57, 18, 16, 21
+Table 41 Guests: 123, 7, 191, 172
+Table 42 Guests: 136, 89, 39, 135
+Table 43 Guests: 27, 100, 92, 109
+Table 44 Guests: 122, 34, 43, 36
+Table 45 Guests: 6, 166, 167, 42
+Table 46 Guests: 30, 134, 157, 114
+Table 47 Guests: 58, 70, 80, 71
+Table 48 Guests: 163, 59, 86, 144
+Table 49 Guests: 65, 183, 155, 194
+Table 50 Guests: 185, 2, 197, 184
 
 ==================================================
 
 Algorithm: Hill Climbing
-Quality Score: 134
-Time Taken: 0.36 seconds
+Quality Score: 438
+Time Taken: 3.70 seconds
 
 Table Assignments:
-Table 1 Guests: 19, 7, 18
-Table 2 Guests: 52, 53, 59
-Table 3 Guests: 4, 5, 3
-Table 4 Guests: 46, 43, 47
-Table 5 Guests: 6, 31, 30
-Table 6 Guests: 55, 15, 54
-Table 7 Guests: 51, 22, 23
-Table 8 Guests: 27, 26, 50
-Table 9 Guests: 1, 2, 60
-Table 10 Guests: 8, 57, 9
-Table 11 Guests: 38, 41, 39
-Table 12 Guests: 20, 21, 34
-Table 13 Guests: 48, 49, 40
-Table 14 Guests: 36, 37, 42
-Table 15 Guests: 33, 58, 32
-Table 16 Guests: 11, 28, 29
-Table 17 Guests: 16, 17, 10
-Table 18 Guests: 13, 12, 56
-Table 19 Guests: 44, 45, 14
-Table 20 Guests: 35, 25, 24
+Table 1 Guests: 172, 173, 153, 152
+Table 2 Guests: 94, 95, 190, 191
+Table 3 Guests: 197, 196, 150, 151
+Table 4 Guests: 93, 62, 92, 63
+Table 5 Guests: 60, 180, 181, 61
+Table 6 Guests: 19, 7, 18, 6
+Table 7 Guests: 35, 192, 193, 34
+Table 8 Guests: 100, 90, 101, 91
+Table 9 Guests: 111, 134, 110, 135
+Table 10 Guests: 68, 175, 37, 69
+Table 11 Guests: 75, 74, 114, 115
+Table 12 Guests: 164, 145, 161, 144
+Table 13 Guests: 47, 82, 46, 73
+Table 14 Guests: 162, 147, 142, 143
+Table 15 Guests: 108, 132, 109, 133
+Table 16 Guests: 102, 119, 118, 103
+Table 17 Guests: 40, 41, 84, 85
+Table 18 Guests: 98, 87, 15, 86
+Table 19 Guests: 42, 70, 71, 43
+Table 20 Guests: 66, 67, 9, 8
+Table 21 Guests: 139, 157, 89, 156
+Table 22 Guests: 3, 2, 88, 1
+Table 23 Guests: 4, 5, 16, 54
+Table 24 Guests: 148, 131, 149, 130
+Table 25 Guests: 146, 178, 179, 14
+Table 26 Guests: 30, 121, 120, 31
+Table 27 Guests: 176, 177, 36, 11
+Table 28 Guests: 10, 53, 52, 39
+Table 29 Guests: 168, 96, 169, 97
+Table 30 Guests: 141, 200, 140, 38
+Table 31 Guests: 166, 51, 167, 72
+Table 32 Guests: 23, 165, 81, 22
+Table 33 Guests: 21, 20, 105, 79
+Table 34 Guests: 123, 128, 129, 122
+Table 35 Guests: 183, 126, 182, 78
+Table 36 Guests: 65, 28, 64, 29
+Table 37 Guests: 160, 24, 25, 127
+Table 38 Guests: 113, 50, 112, 163
+Table 39 Guests: 27, 136, 137, 26
+Table 40 Guests: 159, 171, 158, 170
+Table 41 Guests: 57, 56, 155, 154
+Table 42 Guests: 80, 49, 186, 187
+Table 43 Guests: 48, 185, 184, 174
+Table 44 Guests: 45, 199, 44, 198
+Table 45 Guests: 188, 104, 189, 55
+Table 46 Guests: 77, 76, 32, 33
+Table 47 Guests: 125, 59, 58, 124
+Table 48 Guests: 106, 107, 194, 195
+Table 49 Guests: 99, 138, 12, 13
+Table 50 Guests: 117, 83, 116, 17
 
 ==================================================
 
 Algorithm: Greedy
-Quality Score: 13
+Quality Score: 0
 Time Taken: 0.00 seconds
 
 Table Assignments:
-Table 1 Guests: 4, 26, 16
-Table 2 Guests: 60, 1, 58
-Table 3 Guests: 52, 50, 42
-Table 4 Guests: 44, 34, 22
-Table 5 Guests: 36, 2, 10
-Table 6 Guests: 28, 14, 3
-Table 7 Guests: 20, 9, 57
-Table 8 Guests: 12, 49, 41
-Table 9 Guests: 6, 33, 25
-Table 10 Guests: 54, 7, 55
-Table 11 Guests: 48, 39, 31
-Table 12 Guests: 38, 47, 23
-Table 13 Guests: 30, 15, 59
-Table 14 Guests: 24, 51, 43
-Table 15 Guests: 18, 35, 27
-Table 16 Guests: 8, 19, 11
-Table 17 Guests: 56, 5, 29
-Table 18 Guests: 46, 17, 53
-Table 19 Guests: 40, 37, 21
-Table 20 Guests: 32, 45, 13
+Table 1 Guests: 4, 96, 86, 80
+Table 2 Guests: 92, 8, 72, 64
+Table 3 Guests: 84, 56, 46, 40
+Table 4 Guests: 76, 32, 26, 200
+Table 5 Guests: 68, 192, 184, 176
+Table 6 Guests: 60, 166, 160, 16
+Table 7 Guests: 52, 152, 144, 136
+Table 8 Guests: 44, 126, 120, 112
+Table 9 Guests: 36, 104, 1, 98
+Table 10 Guests: 28, 90, 82, 66
+Table 11 Guests: 20, 58, 50, 42
+Table 12 Guests: 196, 34, 22, 2
+Table 13 Guests: 188, 186, 178, 170
+Table 14 Guests: 180, 162, 146, 138
+Table 15 Guests: 172, 130, 122, 106
+Table 16 Guests: 164, 10, 70, 190
+Table 17 Guests: 156, 150, 14, 110
+Table 18 Guests: 148, 3, 97, 9
+Table 19 Guests: 140, 89, 81, 65
+Table 20 Guests: 132, 57, 49, 41
+Table 21 Guests: 124, 33, 25, 185
+Table 22 Guests: 12, 177, 169, 161
+Table 23 Guests: 116, 145, 137, 129
+Table 24 Guests: 108, 121, 105, 95
+Table 25 Guests: 100, 87, 79, 71
+Table 26 Guests: 94, 7, 63, 55
+Table 27 Guests: 88, 47, 39, 31
+Table 28 Guests: 78, 23, 199, 191
+Table 29 Guests: 74, 183, 175, 167
+Table 30 Guests: 62, 159, 151, 15
+Table 31 Guests: 6, 143, 135, 127
+Table 32 Guests: 54, 119, 111, 103
+Table 33 Guests: 48, 99, 91, 83
+Table 34 Guests: 38, 75, 67, 59
+Table 35 Guests: 30, 51, 43, 35
+Table 36 Guests: 24, 27, 195, 19
+Table 37 Guests: 198, 187, 179, 171
+Table 38 Guests: 194, 163, 155, 147
+Table 39 Guests: 182, 139, 131, 123
+Table 40 Guests: 18, 115, 11, 107
+Table 41 Guests: 174, 73, 5, 29
+Table 42 Guests: 168, 193, 17, 153
+Table 43 Guests: 158, 113, 93, 77
+Table 44 Guests: 154, 61, 53, 37
+Table 45 Guests: 142, 21, 197, 181
+Table 46 Guests: 134, 173, 157, 141
+Table 47 Guests: 128, 133, 117, 101
+Table 48 Guests: 118, 85, 69, 45
+Table 49 Guests: 114, 189, 165, 149
+Table 50 Guests: 102, 13, 125, 109
 
 ==================================================
 
 Algorithm: Tabu Search
-Quality Score: 126
-Time Taken: 0.36 seconds
+Quality Score: 318
+Time Taken: 3.71 seconds
 
 Table Assignments:
-Table 1 Guests: 56, 57, 20
-Table 2 Guests: 48, 49, 29
-Table 3 Guests: 21, 24, 25
-Table 4 Guests: 38, 39, 28
-Table 5 Guests: 31, 30, 59
-Table 6 Guests: 55, 54, 9
-Table 7 Guests: 53, 52, 3
-Table 8 Guests: 19, 18, 32
-Table 9 Guests: 37, 36, 8
-Table 10 Guests: 6, 7, 41
-Table 11 Guests: 23, 42, 22
-Table 12 Guests: 45, 44, 58
-Table 13 Guests: 4, 5, 33
-Table 14 Guests: 12, 13, 50
-Table 15 Guests: 46, 47, 40
-Table 16 Guests: 51, 17, 16
-Table 17 Guests: 15, 43, 14
-Table 18 Guests: 1, 2, 60
-Table 19 Guests: 34, 10, 35
-Table 20 Guests: 26, 27, 11
+Table 1 Guests: 31, 30, 17, 16
+Table 2 Guests: 100, 50, 68, 69
+Table 3 Guests: 118, 119, 38, 14
+Table 4 Guests: 18, 39, 36, 132
+Table 5 Guests: 198, 199, 116, 90
+Table 6 Guests: 163, 120, 162, 82
+Table 7 Guests: 124, 125, 192, 56
+Table 8 Guests: 92, 93, 15, 158
+Table 9 Guests: 49, 48, 32, 177
+Table 10 Guests: 63, 34, 176, 109
+Table 11 Guests: 89, 88, 75, 74
+Table 12 Guests: 95, 94, 161, 159
+Table 13 Guests: 3, 2, 196, 197
+Table 14 Guests: 66, 189, 59, 117
+Table 15 Guests: 97, 96, 11, 10
+Table 16 Guests: 113, 112, 151, 23
+Table 17 Guests: 52, 53, 170, 150
+Table 18 Guests: 104, 105, 140, 188
+Table 19 Guests: 172, 173, 72, 123
+Table 20 Guests: 185, 184, 130, 138
+Table 21 Guests: 102, 103, 58, 146
+Table 22 Guests: 183, 182, 83, 139
+Table 23 Guests: 127, 126, 141, 122
+Table 24 Guests: 85, 84, 71, 195
+Table 25 Guests: 44, 45, 128, 129
+Table 26 Guests: 180, 181, 54, 55
+Table 27 Guests: 91, 131, 107, 101
+Table 28 Guests: 178, 179, 86, 37
+Table 29 Guests: 1, 200, 155, 154
+Table 30 Guests: 26, 27, 77, 76
+Table 31 Guests: 12, 13, 147, 9
+Table 32 Guests: 149, 148, 98, 43
+Table 33 Guests: 157, 156, 65, 64
+Table 34 Guests: 4, 5, 114, 115
+Table 35 Guests: 6, 7, 33, 121
+Table 36 Guests: 99, 67, 190, 106
+Table 37 Guests: 81, 80, 35, 193
+Table 38 Guests: 144, 145, 133, 57
+Table 39 Guests: 152, 153, 46, 42
+Table 40 Guests: 21, 20, 47, 135
+Table 41 Guests: 8, 174, 194, 70
+Table 42 Guests: 78, 79, 87, 29
+Table 43 Guests: 165, 60, 175, 164
+Table 44 Guests: 142, 143, 61, 171
+Table 45 Guests: 73, 22, 40, 41
+Table 46 Guests: 166, 167, 62, 108
+Table 47 Guests: 24, 25, 28, 134
+Table 48 Guests: 187, 111, 110, 160
+Table 49 Guests: 137, 136, 19, 191
+Table 50 Guests: 186, 168, 169, 51
 
 ==================================================
 
 Algorithm: Genetic Algorithm
-Quality Score: 84
-Time Taken: 0.05 seconds
+Quality Score: 114
+Time Taken: 0.51 seconds
 
 Table Assignments:
-Table 1 Guests: 38, 20, 21
-Table 2 Guests: 24, 15, 14
-Table 3 Guests: 48, 59, 44
-Table 4 Guests: 54, 6, 27
-Table 5 Guests: 55, 15, 54
-Table 6 Guests: 43, 37, 9
-Table 7 Guests: 1, 33, 2
-Table 8 Guests: 34, 35, 12
-Table 9 Guests: 29, 42, 28
-Table 10 Guests: 55, 44, 21
-Table 11 Guests: 27, 12, 26
-Table 12 Guests: 8, 5, 4
-Table 13 Guests: 60, 13, 16
-Table 14 Guests: 25, 58, 50
-Table 15 Guests: 8, 9, 8
-Table 16 Guests: 59, 35, 58
-Table 17 Guests: 48, 49, 15
-Table 18 Guests: 31, 43, 17
-Table 19 Guests: 18, 19, 2
-Table 20 Guests: 35, 34, 34
+Table 1 Guests: 197, 73, 156, 57
+Table 2 Guests: 32, 136, 5, 114
+Table 3 Guests: 41, 64, 87, 152
+Table 4 Guests: 122, 169, 175, 147
+Table 5 Guests: 34, 137, 46, 151
+Table 6 Guests: 55, 196, 163, 46
+Table 7 Guests: 128, 135, 69, 59
+Table 8 Guests: 185, 21, 140, 84
+Table 9 Guests: 49, 152, 75, 74
+Table 10 Guests: 82, 181, 51, 89
+Table 11 Guests: 152, 159, 100, 119
+Table 12 Guests: 157, 40, 35, 159
+Table 13 Guests: 58, 33, 154, 120
+Table 14 Guests: 195, 189, 124, 47
+Table 15 Guests: 139, 86, 105, 138
+Table 16 Guests: 38, 147, 119, 76
+Table 17 Guests: 186, 76, 48, 133
+Table 18 Guests: 151, 28, 195, 38
+Table 19 Guests: 79, 165, 164, 21
+Table 20 Guests: 149, 118, 63, 119
+Table 21 Guests: 170, 119, 109, 55
+Table 22 Guests: 8, 186, 17, 142
+Table 23 Guests: 116, 34, 77, 67
+Table 24 Guests: 172, 3, 150, 2
+Table 25 Guests: 192, 2, 98, 130
+Table 26 Guests: 140, 164, 12, 141
+Table 27 Guests: 37, 76, 77, 163
+Table 28 Guests: 59, 169, 28, 168
+Table 29 Guests: 115, 131, 176, 81
+Table 30 Guests: 165, 15, 164, 109
+Table 31 Guests: 79, 190, 147, 78
+Table 32 Guests: 71, 77, 199, 87
+Table 33 Guests: 180, 28, 141, 29
+Table 34 Guests: 172, 185, 173, 184
+Table 35 Guests: 153, 15, 104, 172
+Table 36 Guests: 102, 18, 91, 5
+Table 37 Guests: 103, 130, 116, 120
+Table 38 Guests: 13, 106, 135, 110
+Table 39 Guests: 193, 136, 192, 93
+Table 40 Guests: 182, 165, 8, 27
+Table 41 Guests: 53, 105, 52, 149
+Table 42 Guests: 127, 98, 94, 175
+Table 43 Guests: 151, 57, 24, 191
+Table 44 Guests: 70, 168, 63, 169
+Table 45 Guests: 7, 16, 13, 165
+Table 46 Guests: 3, 2, 8, 91
+Table 47 Guests: 8, 18, 40, 138
+Table 48 Guests: 162, 88, 17, 111
+Table 49 Guests: 20, 133, 147, 81
+Table 50 Guests: 132, 133, 181, 124
 
 ==================================================
 
 Algorithm: k-clustering
-Quality Score: 22
-Time Taken: 0.02 seconds
+Quality Score: 28
+Time Taken: 0.48 seconds
 
 Table Assignments:
-Table 1 Guests: 38, 12, 18
-Table 2 Guests: 25, 49, 4
-Table 3 Guests: 53, 10, 28
-Table 4 Guests: 31, 39, 13
-Table 5 Guests: 47, 40, 27
-Table 6 Guests: 2, 11, 3
-Table 7 Guests: 9, 58, 37
-Table 8 Guests: 8, 42, 5
-Table 9 Guests: 52, 34, 20
-Table 10 Guests: 17, 51, 46
-Table 11 Guests: 35, 36, 55
-Table 12 Guests: 14, 56, 57
-Table 13 Guests: 60, 50, 29
-Table 14 Guests: 48, 26, 43
-Table 15 Guests: 19, 33, 16
-Table 16 Guests: 7, 6, 32
-Table 17 Guests: 15, 24, 21
-Table 18 Guests: 30, 22, 41
-Table 19 Guests: 44, 45, 23
-Table 20 Guests: 59, 54, 1
+Table 1 Guests: 37, 149, 81, 105
+Table 2 Guests: 96, 32, 197, 108
+Table 3 Guests: 121, 9, 122, 57
+Table 4 Guests: 89, 73, 189, 164
+Table 5 Guests: 63, 128, 82, 83
+Table 6 Guests: 47, 90, 188, 15
+Table 7 Guests: 113, 111, 80, 94
+Table 8 Guests: 42, 77, 168, 28
+Table 9 Guests: 85, 199, 106, 109
+Table 10 Guests: 118, 139, 65, 115
+Table 11 Guests: 131, 6, 88, 61
+Table 12 Guests: 110, 159, 52, 136
+Table 13 Guests: 192, 146, 92, 24
+Table 14 Guests: 182, 62, 34, 4
+Table 15 Guests: 35, 7, 162, 97
+Table 16 Guests: 147, 137, 74, 23
+Table 17 Guests: 129, 198, 25, 66
+Table 18 Guests: 84, 181, 75, 143
+Table 19 Guests: 2, 141, 183, 64
+Table 20 Guests: 140, 160, 21, 116
+Table 21 Guests: 186, 1, 151, 19
+Table 22 Guests: 138, 3, 196, 27
+Table 23 Guests: 193, 30, 13, 172
+Table 24 Guests: 190, 191, 87, 86
+Table 25 Guests: 54, 170, 158, 142
+Table 26 Guests: 148, 169, 20, 154
+Table 27 Guests: 107, 51, 123, 171
+Table 28 Guests: 187, 93, 53, 8
+Table 29 Guests: 44, 176, 177, 179
+Table 30 Guests: 200, 135, 76, 68
+Table 31 Guests: 71, 31, 161, 150
+Table 32 Guests: 166, 132, 70, 46
+Table 33 Guests: 12, 5, 103, 99
+Table 34 Guests: 165, 101, 185, 117
+Table 35 Guests: 55, 50, 163, 22
+Table 36 Guests: 194, 175, 67, 167
+Table 37 Guests: 95, 156, 157, 124
+Table 38 Guests: 48, 40, 180, 104
+Table 39 Guests: 126, 17, 91, 134
+Table 40 Guests: 178, 144, 10, 49
+Table 41 Guests: 26, 59, 11, 41
+Table 42 Guests: 145, 18, 112, 174
+Table 43 Guests: 29, 38, 72, 125
+Table 44 Guests: 78, 60, 69, 58
+Table 45 Guests: 100, 195, 36, 79
+Table 46 Guests: 184, 133, 120, 39
+Table 47 Guests: 119, 155, 56, 43
+Table 48 Guests: 33, 173, 98, 114
+Table 49 Guests: 127, 14, 45, 16
+Table 50 Guests: 102, 130, 152, 153
 
 ==================================================
 
